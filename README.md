@@ -6,4 +6,4 @@ To use size chart directly in product description please use [sbhtml_size_chart]
 
 Also has action hook [mwc_size_chart] to add size chart to any page, provided a suitable product ID is passed.
 
-# html-size-chart
+Action is used specifically in Multi Woo Checkout as well.

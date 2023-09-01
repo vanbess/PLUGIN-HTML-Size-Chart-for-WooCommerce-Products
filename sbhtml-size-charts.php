@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Plugin Name: Silverback HTML Size Charts
+ * Plugin Name: Silverback HTML Size Charts [MWC Compatible]
  * Author: WCB
- * Description: HTML size charts for WooCommerce products
+ * Description: HTML size charts for WooCommerce products. Compatible with latest version of Multi Woo Checkout plugin (adds size chart to package products via action hook)
  * Version: 2.1
  */
 
