@@ -24,26 +24,34 @@ function sbhtml_front( $p_id )
         $msystem = 'imperial';
     endif;
 
-    // get product id
-    if ( $p_id ) {
+    // if product id has been passed to function, assign to variable, else check if is product page and get id, else return
+    if ($p_id) :
         $product_id = $p_id;
-    } else {
+    elseif (is_product()) :
         $product_id = get_the_ID();
-    }
+    else :
+        return;
+    endif;
 
     // get product type and attribute data
     $product_data = wc_get_product($product_id);
-    $attr_data = $product_data->attributes;
-    $attr_keys = array_keys($attr_data);
+    $attr_data    = $product_data->attributes;
+    $attr_keys    = array_keys($attr_data);
 
     // get chart data
-    $chart_data = get_post_meta($product_id, 'sbhtml_chart_data', true);
+    $chart_data       = get_post_meta($product_id, 'sbhtml_chart_data', true);
     $chart_data_array = get_post_meta($product_id, 'sbarray_chart_data', true);
+
+    // bail if no chart data for product id
+    if (!$chart_data && !$chart_data_array) :
+        return;
+    endif;
 
     // get pll option
     $pll_strings = get_option('sbhtml_pll_strings');
 
     if ($chart_data_array) :
+
         if ($product_data->has_child()) : ?>
             <input type="hidden" id="sbhtml-show-chart" value="true">
         <?php endif; ?>

@@ -22,12 +22,12 @@ jQuery(function ($) {
         var tmp_col = '<td contenteditable="true" class="core-data" data-unit_cm="click to edit" data-unit_in="">click to edit</td>';
         $(table).find('thead tr').find('th:eq(' + cell_id + ')').after(tmp_col_btn);
         $(table).find('tbody tr').each(function (i_tr, e_tr) {
-            $(e_tr).find('td').each(function(i_td, e_td) {
-                if($(e_td).attr('colspan')) {
+            $(e_tr).find('td').each(function (i_td, e_td) {
+                if ($(e_td).attr('colspan')) {
                     cell_id -= $(e_td).attr('colspan') - 1;
                 }
             });
-            if(cell_id <= 0) {
+            if (cell_id <= 0) {
                 $(e_tr).find('td:eq(' + cell_id + ')').before(tmp_col);
             } else {
                 $(e_tr).find('td:eq(' + cell_id + ')').after(tmp_col);
@@ -81,7 +81,7 @@ jQuery(function ($) {
         // num_rows++;
 
         var num_rows = 0;
-        this_row.find('.core-data').each(function(i, e) {
+        this_row.find('.core-data').each(function (i, e) {
             var colsp = $(e).attr('colspan');
             num_rows += parseInt(colsp ? colsp : 1);
         });
@@ -157,29 +157,29 @@ jQuery(function ($) {
     // });
 
     // change conversion
-    $(document).on('change', '#sbhtml_backend_btn_conv input[name=unit_conversion]', function(e) {
+    $(document).on('change', '#sbhtml_backend_btn_conv input[name=unit_conversion]', function (e) {
         var unit_type = $(this).val();
 
-        $("#sbhtml_chart_data_body > tr td.core-data").each(function( c_i, c_e ) {
+        $("#sbhtml_chart_data_body > tr td.core-data").each(function (c_i, c_e) {
             let val_u = $(c_e).attr('data-unit_' + unit_type);
-            if(val_u) {
+            if (val_u) {
                 $(c_e).text(val_u);
             }
         });
     });
 
     // change input td
-    $(document).on("keyup", "#sbhtml_chart_data_body > tr td.core-data", function(e) {
+    $(document).on("keyup", "#sbhtml_chart_data_body > tr td.core-data", function (e) {
         var unit_type = $('#sbhtml_backend_btn_conv input[name=unit_conversion]:checked').val();
 
         var value = $(e.target).text();
         $(e.target).attr('data-unit_' + unit_type, value);
 
         // convert cm - inch 
-        if(!$(e.target).hasClass('highlight') && !isNaN(value)) {
-            if(unit_type == 'cm') {
+        if (!$(e.target).hasClass('highlight') && !isNaN(value)) {
+            if (unit_type == 'cm') {
                 $(e.target).attr('data-unit_in', convertUnit(value, 'in'));
-            } else if(unit_type == 'in') {
+            } else if (unit_type == 'in') {
                 $(e.target).attr('data-unit_cm', convertUnit(value, 'cm'));
             }
         }
@@ -190,7 +190,7 @@ jQuery(function ($) {
         if (toType == 'in') {
             return (unit_value * 0.39370079).toFixed(1);
         }
-        if(toType == 'cm') {
+        if (toType == 'cm') {
             return (unit_value * 2.54).toFixed(0);
         }
         else {
@@ -206,17 +206,17 @@ jQuery(function ($) {
 
 
         var chart_array = {};
-        $('#sbhtml_table_wrapper .sbhtml_tab_pane').each(function(i, e) {
+        $('#sbhtml_table_wrapper .sbhtml_tab_pane').each(function (i, e) {
             var tab_locale = $(this).attr('data-name');
 
             // chart array
             var tr_body = {};
             $(this).find('.sbhtml_size_table > tbody tr').each(function (i_tr, el_tr) {
-                
+
                 var td_body = {};
                 $(el_tr).find('td').each(function (i_td, el_td) {
-                
-                    if($(el_td).hasClass("sbhtml_table_btn_container")) {
+
+                    if ($(el_td).hasClass("sbhtml_table_btn_container")) {
                         return;
                     }
 
@@ -232,7 +232,7 @@ jQuery(function ($) {
 
                 });
 
-                tr_body[i_tr] = td_body;                
+                tr_body[i_tr] = td_body;
             });
 
             chart_array[tab_locale] = tr_body;
@@ -508,14 +508,14 @@ jQuery(function ($) {
 
 
     // tab
-    $('li.sbhtml_nav_item').on('click', function(e) {
+    $('li.sbhtml_nav_item').on('click', function (e) {
         $('li.sbhtml_nav_item').removeClass('active');
         $(this).addClass('active');
         var unit_type = $(this).attr('data-target');
-        
-        $("#sbhtml_chart_data_body > tr td.core-data").each(function( c_i, c_e ) {
+
+        $("#sbhtml_chart_data_body > tr td.core-data").each(function (c_i, c_e) {
             let val_u = $(c_e).attr('data-unit_' + unit_type);
-            if(val_u) {
+            if (val_u) {
                 $(c_e).text(val_u);
             }
         });
@@ -532,15 +532,15 @@ jQuery(function ($) {
     // check if size chart is set for current product
     var check = $('.attribute-swatch').find('[selectid="pa_size"]');
 
-    if(!check.length) {
+    if (!check.length) {
         check = $('.attribute-swatch').find('[selectid="pa_shoe-size"]');
-        if(!check.length) {
+        if (!check.length) {
             check = $('.attribute-swatch:last').find('.wcvaswatchlabel');
 
             // theme riode
-            if(!check.length) {
+            if (!check.length) {
                 check = $('.pa_size');
-                if(!check.length) {
+                if (!check.length) {
                     check = $('.pa_shoe-size');
                 }
             }
@@ -556,9 +556,13 @@ jQuery(function ($) {
         var shtml_label_text = $('#sbhtml_text_label').val();
         var sbhtml_link_text = $('#sbhtml_text_open_modal').val();
 
-        var label_text_content ='<div class="sbhtml_label_wrap">'+shtml_label_text+' <span class="sbhtml_link_text">'+sbhtml_link_text+'</span></div>';
-        
-        table_append.after(label_text_content);
+        var label_text_content = '<div class="sbhtml_label_wrap">' + shtml_label_text + ' <span class="sbhtml_link_text">' + sbhtml_link_text + '</span></div>';
+
+        // $('table.variations').find('td.label:contains("Size")').append('<span>blah</span>');
+
+        $('<td class="label size-chart-label"><svg style="margin-right:10px;" data-v-6b417351="" width="24" viewBox="0 -4 34 30" xmlns="http://www.w3.org/2000/svg"><path d="M32.5 11.1c-.6 0-1 .4-1 1v11.8h-1.9v-5.4c0-.6-.4-1-1-1s-1 .4-1 1v5.4h-3.7v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6h-3.7v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6h-4.1v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6H6.4v-5.4c0-.6-.4-1-1-1s-1 .4-1 1v5.4H2.5V12.1c0-.6-.4-1-1-1s-1 .4-1 1v12.8c0 .6.4 1 1 1h31c.6 0 1-.4 1-1V12.1c0-.6-.4-1-1-1z" fill="#666666"></path><path d="M27.1 12.4v-.6c0-.1-.1-.1-.1-.2l-2.6-3c-.4-.6-1-.6-1.5-.3-.4.4-.5 1-.1 1.4L24 11H10l1.2-1.3c.4-.4.3-1-.1-1.4-.5-.3-1.1-.3-1.5.1l-2.6 3s0 .1-.1.1l-.1.1c0 .1-.1.1-.1.2v.2c0 .1 0 .1.1.2 0 .1.1.1.1.1s0 .1.1.1l2.6 3c.2.2.5.3.8.3.2 0 .5-.1.7-.2.4-.4.5-1 .1-1.4l-1.2-1h14l-1.2 1.3c-.4.4-.3 1 .1 1.4.2.2.4.2.7.2.3 0 .6-.1.8-.3l2.6-3c0-.1.1-.1.1-.2v-.1z" fill="#666666"></path></svg>' + sbhtml_link_text + '</td>').insertAfter('table.variations td.label:contains("Size")');
+
+        // table_append.after(label_text_content);
     }
 
     // remove unneeded elements
@@ -572,7 +576,7 @@ jQuery(function ($) {
     });
 
     // show modal and overlay
-    $('a#sbhtml_view_size_chart, .single-product .sbhtml_link_text, a#sbhtml_single_size_chart').on('click', function (e) {
+    $('a#sbhtml_view_size_chart, .size-chart-label, a#sbhtml_single_size_chart').on('click', function (e) {
         e.preventDefault();
         $('div#sbhtml_chart_overlay, div#sbhtml_chart_modal').show();
     });
@@ -637,12 +641,12 @@ jQuery(function ($) {
         convcounterin = 0;
     }
     // change rario conv cm|in
-    $('#sbhtml_front_btn_cont input[name="unit_conversion"]').change(function(e) {
+    $('#sbhtml_front_btn_cont input[name="unit_conversion"]').change(function (e) {
         var unit_type = $(this).val();
-        
-        $("#sbhtml_chart_data_body > tr td.core-data").each(function( c_i, c_e ) {
+
+        $("#sbhtml_chart_data_body > tr td.core-data").each(function (c_i, c_e) {
             let val_u = $(c_e).attr('data-unit_' + unit_type);
-            if(val_u) {
+            if (val_u) {
                 $(c_e).text(val_u);
             }
         });

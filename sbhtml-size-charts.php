@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Plugin Name: Silverback HTML Size Charts [MWC Compatible]
+ * Plugin Name: Silverback HTML Size Charts [MWC Compatible - RIODE Theme]
  * Author: WCB
  * Description: HTML size charts for WooCommerce products. Compatible with latest version of Multi Woo Checkout plugin (adds size chart to package products via action hook)
- * Version: 2.1
+ * Version: 2.2
  */
 
 if (!defined('ABSPATH')) :
     exit();
 endif;
 
-define('SBHTML_VERSION', '2.1');
+define('SBHTML_VERSION', '2.2');
 
 // load
 function sbhtmlc()
