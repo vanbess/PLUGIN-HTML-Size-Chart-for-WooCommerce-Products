@@ -538,6 +538,8 @@ td.label.size-chart-label {
     text-decoration: underline;
     font-size: inherit;
     cursor: pointer;
+    position: absolute;
+    right: 0;
 }
 
 /* @MEDIA */
