@@ -28,9 +28,12 @@ class SBHTML_Back
         // global chart image override page
         add_action('admin_menu', [__CLASS__, 'sbhtml_register_settings_page'], 99);
 
+        $ver = time();
+        $rand = rand(2, 100000);
+
         // css and js
         wp_enqueue_style('sbhtml-css', SBHTML_URL . 'assets/sbhtml.css',array(), time());
-        wp_enqueue_script('sbhtml-js', SBHTML_URL . 'assets/sbhtml.js', ['jquery'], time(), true);
+        wp_enqueue_script('sbhtml-js', SBHTML_URL . 'assets/sbhtml.js', ['jquery'], "$rand", true);
     }
 
     /**

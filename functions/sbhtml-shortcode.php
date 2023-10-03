@@ -33,12 +33,17 @@ function sbhtml_shortcode()
     $product_id = get_the_ID();
 
     // get chart data
-    $chart_data = get_post_meta($product_id, 'sbhtml_chart_data', true);
+    // $chart_data = get_post_meta($product_id, 'sbhtml_chart_data', true);
+    $chart_data = get_post_meta($product_id, 'sbarray_chart_data', true);
+
+    // echo '<pre>';
+    // print_r(get_post_meta($product_id));
+    // echo '</pre>';
 
     if ($chart_data) : ?>
 
         <!-- chart data table actual -->
-        <div id="sbhtml_table_wrapper">
+        <div id="sbhtml_table_wrapper" style="display: none;">
 
             <?php
             // display unit conversion buttons if enable for product
