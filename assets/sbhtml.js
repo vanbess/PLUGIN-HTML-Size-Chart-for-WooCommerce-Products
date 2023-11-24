@@ -522,187 +522,187 @@ jQuery(function ($) {
     });
 
 
-    /* ******************** */
-    /* FRONT/PRODUCT SINGLE */
-    /* ******************** */
+//    /* ******************** */
+//     /* FRONT/PRODUCT SINGLE */
+//     /* ******************** */
 
-    // show chart modal link
-    //check for presence of pa_size
+//     // show chart modal link
+//     //check for presence of pa_size
 
-    // check if size chart is set for current product
-    var check = $('.attribute-swatch').find('[selectid="pa_size"]');
+//     // check if size chart is set for current product
+//     var check = $('.attribute-swatch').find('[selectid="pa_size"]');
 
-    if (!check.length) {
-        check = $('.attribute-swatch').find('[selectid="pa_shoe-size"]');
-        if (!check.length) {
-            check = $('.attribute-swatch:last').find('.wcvaswatchlabel');
+//     if (!check.length) {
+//         check = $('.attribute-swatch').find('[selectid="pa_shoe-size"]');
+//         if (!check.length) {
+//             check = $('.attribute-swatch:last').find('.wcvaswatchlabel');
 
-            // theme riode
-            if (!check.length) {
-                check = $('.pa_size');
-                if (!check.length) {
-                    check = $('.pa_shoe-size');
-                }
-            }
-        }
-    }
+//             // theme riode
+//             if (!check.length) {
+//                 check = $('.pa_size');
+//                 if (!check.length) {
+//                     check = $('.pa_shoe-size');
+//                 }
+//             }
+//         }
+//     }
 
-    // check if size chart is set for current product
-    var table_append = $(check).closest('table.variations');
-    var chart_set = $('#sbhtml-show-chart').val();
+//     // check if size chart is set for current product
+//     var table_append = $(check).closest('table.variations');
+//     var chart_set = $('#sbhtml-show-chart').val();
 
-    if (check.length && chart_set) {
+//     if (check.length && chart_set) {
 
-        var shtml_label_text = $('#sbhtml_text_label').val();
-        var sbhtml_link_text = $('#sbhtml_text_open_modal').val();
+//         var shtml_label_text = $('#sbhtml_text_label').val();
+//         var sbhtml_link_text = $('#sbhtml_text_open_modal').val();
 
-        console.log(sbhtml_link_text);
+//         console.log(sbhtml_link_text);
 
-        var label_text_content = '<div class="sbhtml_label_wrap">' + shtml_label_text + ' <span class="sbhtml_link_text">' + sbhtml_link_text + '</span></div>';
+//         var label_text_content = '<div class="sbhtml_label_wrap">' + shtml_label_text + ' <span class="sbhtml_link_text">' + sbhtml_link_text + '</span></div>';
 
-        // $('table.variations').find('td.label:contains("Size")').append('<span>blah</span>');
-        try {
-            $('<td class="label size-chart-label"><svg style="margin-right:10px;" data-v-6b417351="" width="24" viewBox="0 -4 34 30" xmlns="http://www.w3.org/2000/svg"><path d="M32.5 11.1c-.6 0-1 .4-1 1v11.8h-1.9v-5.4c0-.6-.4-1-1-1s-1 .4-1 1v5.4h-3.7v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6h-3.7v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6h-4.1v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6H6.4v-5.4c0-.6-.4-1-1-1s-1 .4-1 1v5.4H2.5V12.1c0-.6-.4-1-1-1s-1 .4-1 1v12.8c0 .6.4 1 1 1h31c.6 0 1-.4 1-1V12.1c0-.6-.4-1-1-1z" fill="#666666"></path><path d="M27.1 12.4v-.6c0-.1-.1-.1-.1-.2l-2.6-3c-.4-.6-1-.6-1.5-.3-.4.4-.5 1-.1 1.4L24 11H10l1.2-1.3c.4-.4.3-1-.1-1.4-.5-.3-1.1-.3-1.5.1l-2.6 3s0 .1-.1.1l-.1.1c0 .1-.1.1-.1.2v.2c0 .1 0 .1.1.2 0 .1.1.1.1.1s0 .1.1.1l2.6 3c.2.2.5.3.8.3.2 0 .5-.1.7-.2.4-.4.5-1 .1-1.4l-1.2-1h14l-1.2 1.3c-.4.4-.3 1 .1 1.4.2.2.4.2.7.2.3 0 .6-.1.8-.3l2.6-3c0-.1.1-.1.1-.2v-.1z" fill="#666666"></path></svg>' + sbhtml_link_text + '</td>').insertAfter('table.variations td:has(label[for="pa_size"])');
-        } catch (error) {
-            console.error(error);
-        }
+//         // $('table.variations').find('td.label:contains("Size")').append('<span>blah</span>');
+//         try {
+//             $('<td class="label size-chart-label"><svg style="margin-right:10px;" data-v-6b417351="" width="24" viewBox="0 -4 34 30" xmlns="http://www.w3.org/2000/svg"><path d="M32.5 11.1c-.6 0-1 .4-1 1v11.8h-1.9v-5.4c0-.6-.4-1-1-1s-1 .4-1 1v5.4h-3.7v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6h-3.7v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6h-4.1v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6H6.4v-5.4c0-.6-.4-1-1-1s-1 .4-1 1v5.4H2.5V12.1c0-.6-.4-1-1-1s-1 .4-1 1v12.8c0 .6.4 1 1 1h31c.6 0 1-.4 1-1V12.1c0-.6-.4-1-1-1z" fill="#666666"></path><path d="M27.1 12.4v-.6c0-.1-.1-.1-.1-.2l-2.6-3c-.4-.6-1-.6-1.5-.3-.4.4-.5 1-.1 1.4L24 11H10l1.2-1.3c.4-.4.3-1-.1-1.4-.5-.3-1.1-.3-1.5.1l-2.6 3s0 .1-.1.1l-.1.1c0 .1-.1.1-.1.2v.2c0 .1 0 .1.1.2 0 .1.1.1.1.1s0 .1.1.1l2.6 3c.2.2.5.3.8.3.2 0 .5-.1.7-.2.4-.4.5-1 .1-1.4l-1.2-1h14l-1.2 1.3c-.4.4-.3 1 .1 1.4.2.2.4.2.7.2.3 0 .6-.1.8-.3l2.6-3c0-.1.1-.1.1-.2v-.1z" fill="#666666"></path></svg>' + sbhtml_link_text + '</td>').insertAfter('table.variations td:has(label[for="pa_size"])');
+//         } catch (error) {
+//             console.error(error);
+//         }
 
-        // table_append.after(label_text_content);
-    }
+//         // table_append.after(label_text_content);
+//     }
 
-    // remove unneeded elements
-    $('.sbhtml_table_front > thead').remove();
-    $('.sbhtml_table_front .sbhtml_table_btn_container').remove();
+//     // remove unneeded elements
+//     $('.sbhtml_table_front > thead').remove();
+//     $('.sbhtml_table_front .sbhtml_table_btn_container').remove();
 
-    // hide modal and overlay
-    $('div#sbhtml_chart_overlay, span#sbhtml_modal_close').on('click', function (e) {
-        e.preventDefault();
-        $('div#sbhtml_chart_overlay, div#sbhtml_chart_modal').hide();
-    });
+//     // hide modal and overlay
+//     $('div#sbhtml_chart_overlay, span#sbhtml_modal_close').on('click', function (e) {
+//         e.preventDefault();
+//         $('div#sbhtml_chart_overlay, div#sbhtml_chart_modal').hide();
+//     });
 
-    // show modal and overlay
-    $('a#sbhtml_view_size_chart, .size-chart-label, a#sbhtml_single_size_chart').on('click', function (e) {
-        e.preventDefault();
-        $('div#sbhtml_chart_overlay, div#sbhtml_chart_modal').show();
-    });
+//     // show modal and overlay
+//     $('a#sbhtml_view_size_chart, .size-chart-label, a#sbhtml_single_size_chart').on('click', function (e) {
+//         e.preventDefault();
+//         $('div#sbhtml_chart_overlay, div#sbhtml_chart_modal').show();
+//     });
 
-    // stop modal
-    $('div#sbhtml_chart_modal').on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    });
+//     // stop modal
+//     $('div#sbhtml_chart_modal').on('click', function (e) {
+//         e.preventDefault();
+//         e.stopPropagation();
+//     });
 
-    // disable content editing capabilities
-    $('.sbhtml_table_front td').attr('contenteditable', false);
+//     // disable content editing capabilities
+//     $('.sbhtml_table_front td').attr('contenteditable', false);
 
-    // convert to inches
-    var convcounterin = 0;
-    $('button#sbhtml_imp_units').on('click', function (e) {
-        conv_unit_in();
-    });
-    function conv_unit_in() {
-        $('button#sbhtml_met_units').removeClass('sbhtml_active');
-        $(this).addClass('sbhtml_active');
+//     // convert to inches
+//     var convcounterin = 0;
+//     $('button#sbhtml_imp_units').on('click', function (e) {
+//         conv_unit_in();
+//     });
+//     function conv_unit_in() {
+//         $('button#sbhtml_met_units').removeClass('sbhtml_active');
+//         $(this).addClass('sbhtml_active');
 
-        var cells = $('tbody#sbhtml_chart_data_body td');
+//         var cells = $('tbody#sbhtml_chart_data_body td');
 
-        $.each(cells, function () {
-            var value = $(this).text();
-            var float = parseFloat(value);
-            var converter = 0.39370079;
+//         $.each(cells, function () {
+//             var value = $(this).text();
+//             var float = parseFloat(value);
+//             var converter = 0.39370079;
 
-            if (!isNaN(float) && convcounterin == 0) {
-                $(this).text((float * converter).toFixed(1));
-            }
+//             if (!isNaN(float) && convcounterin == 0) {
+//                 $(this).text((float * converter).toFixed(1));
+//             }
 
-        });
-        convcounterin++;
-        convcountercm = 0;
-    }
+//         });
+//         convcounterin++;
+//         convcountercm = 0;
+//     }
 
-    // convert to centimetres
-    var convcountercm = 0;
-    $('button#sbhtml_met_units').on('click', function (e) {
-        conv_unit_cm();
-    });
-    function conv_unit_cm() {
+//     // convert to centimetres
+//     var convcountercm = 0;
+//     $('button#sbhtml_met_units').on('click', function (e) {
+//         conv_unit_cm();
+//     });
+//     function conv_unit_cm() {
 
-        $('button#sbhtml_imp_units').removeClass('sbhtml_active');
-        $(this).addClass('sbhtml_active');
+//         $('button#sbhtml_imp_units').removeClass('sbhtml_active');
+//         $(this).addClass('sbhtml_active');
 
-        var cells = $('tbody#sbhtml_chart_data_body td');
+//         var cells = $('tbody#sbhtml_chart_data_body td');
 
-        $.each(cells, function () {
-            var value = $(this).text();
-            var float = parseFloat(value);
-            var converter = 2.54;
+//         $.each(cells, function () {
+//             var value = $(this).text();
+//             var float = parseFloat(value);
+//             var converter = 2.54;
 
-            if (!isNaN(float) && convcountercm == 0) {
-                $(this).text((float * converter).toFixed(0));
-            }
+//             if (!isNaN(float) && convcountercm == 0) {
+//                 $(this).text((float * converter).toFixed(0));
+//             }
 
-        });
-        convcountercm++;
-        convcounterin = 0;
-    }
-    // change rario conv cm|in
-    $('#sbhtml_front_btn_cont input[name="unit_conversion"]').change(function (e) {
-        var unit_type = $(this).val();
+//         });
+//         convcountercm++;
+//         convcounterin = 0;
+//     }
+//     // change rario conv cm|in
+//     $('#sbhtml_front_btn_cont input[name="unit_conversion"]').change(function (e) {
+//         var unit_type = $(this).val();
 
-        $("#sbhtml_chart_data_body > tr td.core-data").each(function (c_i, c_e) {
-            let val_u = $(c_e).attr('data-unit_' + unit_type);
-            if (val_u) {
-                $(c_e).text(val_u);
-            }
-        });
-    })
+//         $("#sbhtml_chart_data_body > tr td.core-data").each(function (c_i, c_e) {
+//             let val_u = $(c_e).attr('data-unit_' + unit_type);
+//             if (val_u) {
+//                 $(c_e).text(val_u);
+//             }
+//         });
+//     })
 
-    // convert to inches -> SHORTCODE
-    var convcounterin_emb = 0;
-    $('button#sbhtml_imp_units_emb').on('click', function (e) {
+//     // convert to inches -> SHORTCODE
+//     var convcounterin_emb = 0;
+//     $('button#sbhtml_imp_units_emb').on('click', function (e) {
 
-        $('button#sbhtml_met_units_emb').removeClass('sbhtml_active');
-        $(this).addClass('sbhtml_active');
+//         $('button#sbhtml_met_units_emb').removeClass('sbhtml_active');
+//         $(this).addClass('sbhtml_active');
 
-        e.preventDefault();
+//         e.preventDefault();
 
-        var cells = $('tbody#sbhtml_chart_data_body td');
+//         var cells = $('tbody#sbhtml_chart_data_body td');
 
-        $.each(cells, function () {
-            var value = $(this).text();
-            var float = parseFloat(value);
-            var converter = 0.39370079;
+//         $.each(cells, function () {
+//             var value = $(this).text();
+//             var float = parseFloat(value);
+//             var converter = 0.39370079;
 
-            if (!isNaN(float) && convcounterin_emb == 0) {
-                $(this).text((float * converter).toFixed(1));
-            }
+//             if (!isNaN(float) && convcounterin_emb == 0) {
+//                 $(this).text((float * converter).toFixed(1));
+//             }
 
-        });
-        convcounterin_emb++;
-        convcountercm_emb = 0;
-    });
+//         });
+//         convcounterin_emb++;
+//         convcountercm_emb = 0;
+//     });
 
-    // convert to centimetres
-    var convcountercm_emb = 0;
-    $('button#sbhtml_met_units_emb').on('click', function (e) {
-        e.preventDefault();
+//     // convert to centimetres
+//     var convcountercm_emb = 0;
+//     $('button#sbhtml_met_units_emb').on('click', function (e) {
+//         e.preventDefault();
 
-        $('button#sbhtml_imp_units_emb').removeClass('sbhtml_active');
-        $(this).addClass('sbhtml_active');
+//         $('button#sbhtml_imp_units_emb').removeClass('sbhtml_active');
+//         $(this).addClass('sbhtml_active');
 
-        var cells = $('tbody#sbhtml_chart_data_body td');
+//         var cells = $('tbody#sbhtml_chart_data_body td');
 
-        $.each(cells, function () {
-            var value = $(this).text();
-            var float = parseFloat(value);
-            var converter = 2.54;
+//         $.each(cells, function () {
+//             var value = $(this).text();
+//             var float = parseFloat(value);
+//             var converter = 2.54;
 
-            if (!isNaN(float) && convcountercm_emb == 0) {
-                $(this).text((float * converter).toFixed(0));
-            }
+//             if (!isNaN(float) && convcountercm_emb == 0) {
+//                 $(this).text((float * converter).toFixed(0));
+//             }
 
-        });
-        convcountercm_emb++;
-        convcounterin_emb = 0;
-    });
+//         });
+//         convcountercm_emb++;
+//         convcounterin_emb = 0;
+//     });
 });

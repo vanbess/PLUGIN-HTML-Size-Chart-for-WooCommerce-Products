@@ -42,8 +42,10 @@ function sbhtml_shortcode()
 
     if ($chart_data) : ?>
 
+
+
         <!-- chart data table actual -->
-        <div id="sbhtml_table_wrapper" style="display: none;">
+        <div id="sbhtml_table_wrapper" class="sbhtml-shortcode" style="display: none;">
 
             <?php
             // display unit conversion buttons if enable for product
@@ -70,7 +72,7 @@ function sbhtml_shortcode()
             ?>
 
             <!-- table actual -->
-            <table id="sbhtml_size_table" class="sbhtml_table_front">
+            <table id="sbhtml_size_table" class="sbhtml_table_front shortcode">
                 <?php if (is_object(json_decode($chart_data))) :
                     echo json_decode($chart_data);
                 else :
@@ -106,99 +108,239 @@ function sbhtml_shortcode()
 
         </div>
 
-        <?php
-        // if chart remarks present
-        if (get_post_meta($product_id, 'sbhtml_remarks', true)) : ?>
 
-            <div id="sbhtml_chart_remarks_cont">
-                <p><?php pll_e(get_post_meta($product_id, 'sbhtml_remarks', true)); ?></p>
-            </div>
 
-            <!-- pll -->
-            <script>
-                jQuery(function($) {
-                    var text = $('#sbhtml_chart_remarks_cont > p').text();
-                    var pll_text = '<?php pll_e("'+text+'"); ?>';
-                    $('#sbhtml_chart_remarks_cont > p').text(pll_text);
-                });
-            </script>
-
-            <?php endif;
-
-        // if global note present AND set to on for product
-        $global_note = get_post_meta($product_id, 'sbhtml_g_remarks_disable', true);
-        if (get_option('sbhtml_global_note')) :
-            if ($global_note && $global_note == 'no') : ?>
-                <div id="sbhtml_global_note_cont">
-                    <p><?php pll_e(get_option('sbhtml_global_note')); ?></p>
-                </div>
-            <?php elseif (!$global_note) : ?>
-                <div id="sbhtml_global_note_cont">
-                    <p><?php pll_e(get_option('sbhtml_global_note')); ?></p>
-                </div>
-            <?php endif; ?>
-
-            <!-- pll -->
-            <script>
-                jQuery(function($) {
-                    var text = $('#sbhtml_global_note_cont > p').text();
-                    var pll_text = '<?php pll_e("'+text+'"); ?>';
-                    $('#sbhtml_global_note_cont > p').text(pll_text);
-                });
-            </script>
-        <?php endif;
-
-        // if chart image present
-        if (get_post_meta($product_id, 'sbhtml_img_url', true)) : ?>
-
-            <div id="sbhtml_img_cont_front">
-                <img src="<?php echo get_post_meta($product_id, 'sbhtml_img_url', true); ?>">
-            </div>
-
-        <?php
-        // if global chart image present && global chart image set to show for product
-        elseif (!get_post_meta($product_id, 'sbhtml_gci_de', true) || get_post_meta($product_id, 'sbhtml_gci_de', true) == 'no') : ?>
-            <div id="sbhtml_img_cont_front">
-                <?php
-                // get product id
-                $product_id = get_the_ID();
-
-                // get product terms
-                $terms = wp_get_post_terms($product_id, 'product_cat');
-
-                // check if terms are children or parents and if either have shortcodes assigned to them
-                $child_shortcode = '';
-                $parent_shortcode = '';
-
-                foreach ($terms as $term) :
-                    if ($term->parent > 0) :
-                        $term_id = $term->term_id;
-                        if (get_term_meta($term_id, 'sbhtml_cat_shortcode', true)) :
-                            $child_shortcode = get_term_meta($term_id, 'sbhtml_cat_shortcode', true);
-                        endif;
-                    else :
-                        $term_id = $term->term_id;
-                        if (get_term_meta($term_id, 'sbhtml_cat_shortcode', true)) :
-                            $parent_shortcode = get_term_meta($term_id, 'sbhtml_cat_shortcode', true);
-                        endif;
-                    endif;
-                endforeach;
-
-                // if child cat shortcode present, display that, else display parent cat shortcode if present, else display global shortcode if present
-                if (!empty($child_shortcode)) :
-                    echo do_shortcode($child_shortcode);
-                elseif (!empty($parent_shortcode)) :
-                    echo do_shortcode($parent_shortcode);
-                elseif (!empty($gshortcode = stripslashes(get_option('sbhtml_img_global_sc')))) :
-                    echo do_shortcode($gshortcode);
-                endif;
-
-                ?>
-            </div>
-<?php endif;
-    endif;
+    <?php endif;
 }
 
 add_shortcode('sbhtml_size_chart', 'sbhtml_shortcode');
+
+/*********************
+ * JS for size chart
+ *********************/
+add_action('wp_footer', function () {
+
+    // is is not product single or post type 'offer' or 'landing' then return
+    if (!is_product() || !get_post_type() == 'offer' || !get_post_type() == 'landing') :
+        return;
+    endif;
+
+    ?>
+
+    <script id="sbhtml-chart-prod-js-shortcode">
+        jQuery(document).ready(function($) {
+
+            // check for presence of product-variations with data-attr value of pa_shoes_size or pa_size
+            let hasSizes = false;
+
+            // check for presence of attribute select fields with ids of pa_shoes-size or pa_size
+            $('table.variations tr').each(function() {
+
+                let selects = $(this).find('select');
+
+                selects.each(function() {
+
+                    if ($(this).attr('id') === 'pa_shoes-size' || $(this).attr('id') === 'pa_size') {
+                        hasSizes = true;
+                        return false; // exit the loop if found
+                    }
+
+                });
+
+            });
+
+            // check if chart can be shown
+            let show_chart = $('#sbhtml-show-chart').val();
+
+            // DEBUG
+            // if (show_chart === 'true' && hasSizes) {
+            //     console.log('chart can be shown');
+            // } else {
+            //     console.log('chart cannot be shown');
+            // }
+
+            if (show_chart === 'true' && hasSizes) {
+
+                var sbhtml_link_text = $('#sbhtml_text_open_modal').val();
+
+                // DEBUG
+                // console.log(sbhtml_link_text);
+
+                let label_text_content = '<a href="#" class="show-size-chart"><svg style="margin-right:10px;" data-v-6b417351="" width="24" viewBox="0 -4 34 30" xmlns="http://www.w3.org/2000/svg"><path d="M32.5 11.1c-.6 0-1 .4-1 1v11.8h-1.9v-5.4c0-.6-.4-1-1-1s-1 .4-1 1v5.4h-3.7v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6h-3.7v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6h-4.1v-3.6c0-.6-.4-1-1-1s-1 .4-1 1v3.6H6.4v-5.4c0-.6-.4-1-1-1s-1 .4-1 1v5.4H2.5V12.1c0-.6-.4-1-1-1s-1 .4-1 1v12.8c0 .6.4 1 1 1h31c.6 0 1-.4 1-1V12.1c0-.6-.4-1-1-1z" fill="#666666"></path><path d="M27.1 12.4v-.6c0-.1-.1-.1-.1-.2l-2.6-3c-.4-.6-1-.6-1.5-.3-.4.4-.5 1-.1 1.4L24 11H10l1.2-1.3c.4-.4.3-1-.1-1.4-.5-.3-1.1-.3-1.5.1l-2.6 3s0 .1-.1.1l-.1.1c0 .1-.1.1-.1.2v.2c0 .1 0 .1.1.2 0 .1.1.1.1.1s0 .1.1.1l2.6 3c.2.2.5.3.8.3.2 0 .5-.1.7-.2.4-.4.5-1 .1-1.4l-1.2-1h14l-1.2 1.3c-.4.4-.3 1 .1 1.4.2.2.4.2.7.2.3 0 .6-.1.8-.3l2.6-3c0-.1.1-.1.1-.2v-.1z" fill="#666666"></path></svg>' + sbhtml_link_text + '</a>';
+
+                // append to label with for attribute of pa_size or pa_shoes-size
+                if ($('table.variations').find('label[for="pa_size"]').length) {
+
+                    // DEBUG
+                    // console.log('pa_size found');
+
+                    $(label_text_content).insertAfter($('table.variations').find('label[for="pa_size"]').parent('.label'));
+                    // $('table.variations').find('label[for="pa_size"]').insertAfter(label_text_content);
+                } else if ($('table.variations').find('label[for="pa_shoes-size"]').length) {
+
+                    // DEBUG
+                    // console.log('pa_shoes-size found');
+
+                    $(label_text_content).insertAfter($('table.variations').find('label[for="pa_shoes-size"]').parent('.label'));
+                    // $('table.variations').find('label[for="pa_shoes-size"]').append(label_text_content);
+
+                }
+            }
+
+            // remove unneeded elements
+            $('.sbhtml_table_front > thead').remove();
+            $('.sbhtml_table_front .sbhtml_table_btn_container').remove();
+
+            // hide modal and overlay
+            $('div#sbhtml_chart_overlay, span#sbhtml_modal_close').on('click', function(e) {
+                e.preventDefault();
+                $('div#sbhtml_chart_overlay, div#sbhtml_chart_modal').hide();
+            });
+
+            // show modal and overlay
+            $('a#sbhtml_view_size_chart, .show-size-chart, a#sbhtml_single_size_chart').on('click', function(e) {
+                e.preventDefault();
+                $('div#sbhtml_chart_overlay, div#sbhtml_chart_modal').show();
+            });
+
+            // stop modal
+            $('div#sbhtml_chart_modal').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            // disable content editing capabilities
+            $('.sbhtml_table_front td').attr('contenteditable', false);
+
+            // convert to inches
+            var convcounterin = 0;
+            $('button#sbhtml_imp_units').on('click', function(e) {
+                conv_unit_in();
+            });
+
+            function conv_unit_in() {
+                $('button#sbhtml_met_units').removeClass('sbhtml_active');
+                $(this).addClass('sbhtml_active');
+
+                var cells = $('tbody#sbhtml_chart_data_body td');
+
+                $.each(cells, function() {
+                    var value = $(this).text();
+                    var float = parseFloat(value);
+                    var converter = 0.39370079;
+
+                    if (!isNaN(float) && convcounterin == 0) {
+                        $(this).text((float * converter).toFixed(1));
+                    }
+
+                });
+                convcounterin++;
+                convcountercm = 0;
+            }
+
+            // convert to centimetres
+            var convcountercm = 0;
+            $('button#sbhtml_met_units').on('click', function(e) {
+                conv_unit_cm();
+            });
+
+            function conv_unit_cm() {
+
+                $('button#sbhtml_imp_units').removeClass('sbhtml_active');
+                $(this).addClass('sbhtml_active');
+
+                var cells = $('tbody#sbhtml_chart_data_body td');
+
+                $.each(cells, function() {
+                    var value = $(this).text();
+                    var float = parseFloat(value);
+                    var converter = 2.54;
+
+                    if (!isNaN(float) && convcountercm == 0) {
+                        $(this).text((float * converter).toFixed(0));
+                    }
+
+                });
+                convcountercm++;
+                convcounterin = 0;
+            }
+            // change rario conv cm|in
+            $('#sbhtml_front_btn_cont input[name="unit_conversion"]').change(function(e) {
+                var unit_type = $(this).val();
+
+                $("#sbhtml_chart_data_body > tr td.core-data").each(function(c_i, c_e) {
+                    let val_u = $(c_e).attr('data-unit_' + unit_type);
+                    if (val_u) {
+                        $(c_e).text(val_u);
+                    }
+                });
+            })
+
+            // convert to inches -> SHORTCODE
+            var convcounterin_emb = 0;
+            $('button#sbhtml_imp_units_emb').on('click', function(e) {
+
+                $('button#sbhtml_met_units_emb').removeClass('sbhtml_active');
+                $(this).addClass('sbhtml_active');
+
+                e.preventDefault();
+
+                var cells = $('tbody#sbhtml_chart_data_body td');
+
+                $.each(cells, function() {
+                    var value = $(this).text();
+                    var float = parseFloat(value);
+                    var converter = 0.39370079;
+
+                    if (!isNaN(float) && convcounterin_emb == 0) {
+                        $(this).text((float * converter).toFixed(1));
+                    }
+
+                });
+                convcounterin_emb++;
+                convcountercm_emb = 0;
+            });
+
+            // convert to centimetres
+            var convcountercm_emb = 0;
+            $('button#sbhtml_met_units_emb').on('click', function(e) {
+                e.preventDefault();
+
+                $('button#sbhtml_imp_units_emb').removeClass('sbhtml_active');
+                $(this).addClass('sbhtml_active');
+
+                var cells = $('tbody#sbhtml_chart_data_body td');
+
+                $.each(cells, function() {
+                    var value = $(this).text();
+                    var float = parseFloat(value);
+                    var converter = 2.54;
+
+                    if (!isNaN(float) && convcountercm_emb == 0) {
+                        $(this).text((float * converter).toFixed(0));
+                    }
+
+                });
+                convcountercm_emb++;
+                convcounterin_emb = 0;
+            });
+        });
+    </script>
+
+    <style>
+        tr.list-type {
+            position: relative;
+        }
+
+        a.show-size-chart {
+            position: absolute;
+            right: 0px;
+            top: 8px;
+            font-size: 20px;
+        }
+    </style>
+
+
+<?php })
 
 ?>

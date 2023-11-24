@@ -390,8 +390,8 @@ div#sbhtml_chart_modal {
     z-index: 1001;
     width: 50vw;
     padding: 25px;
-    top: 55%;
-    transform: translateY(-50%);
+    top: 20%;
+    /* transform: translateY(-50%); */
     left: 0;
     right: 0;
     margin: auto;
@@ -547,7 +547,6 @@ td.label.size-chart-label {
 @media screen and (max-width: 1536px) {
     div#sbhtml_chart_modal {
         width: 70vw;
-        top: 575px;
     }
 }
 
@@ -559,7 +558,11 @@ td.label.size-chart-label {
 }
 
 /* 1366px */
-@media screen and (max-width: 1366px) {}
+@media screen and (max-width: 1366px) {
+    div#sbhtml_chart_modal {
+        top: 23%;
+    }
+}
 
 /* 1280px */
 @media screen and (max-width: 1280px) {}
@@ -568,6 +571,20 @@ td.label.size-chart-label {
 @media screen and (max-width: 1024px) {
     div#sbhtml_chart_modal {
         width: 90vw;
+    }
+}
+
+/* 962px */
+@media screen and (max-width: 962px) {
+    div#sbhtml_chart_modal {
+        top: 31%;
+    }
+}
+
+/* 810px */
+@media screen and (max-width: 810px) {
+    div#sbhtml_chart_modal {
+        top: 19%;
     }
 }
 
